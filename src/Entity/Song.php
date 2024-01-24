@@ -18,8 +18,8 @@ class Song
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $length = null;
+    #[ORM\Column]
+    private ?int $length = null;
 
     #[ORM\ManyToOne(inversedBy: 'songs')]
     #[ORM\JoinColumn(nullable: false)]
@@ -42,12 +42,12 @@ class Song
         return $this;
     }
 
-    public function getLength(): ?string
+    public function getLength(): ?int
     {
         return $this->length;
     }
 
-    public function setLength(string $length): static
+    public function setLength(int $length): static
     {
         $this->length = $length;
 
