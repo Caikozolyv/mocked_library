@@ -8,15 +8,9 @@ use App\Entity\Album;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\HttpFoundation\File\File;
-use App\Service\UploadHelper;
 
 class AppFixtures extends Fixture
 {
-
-    public function __construct(
-        private UploadHelper $uploadHelper
-    ) {
-    }
 
     public function load(ObjectManager $manager): void
     {
