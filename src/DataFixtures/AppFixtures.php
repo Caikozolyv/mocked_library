@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use Faker\Factory;
 use App\Entity\Song;
 use App\Entity\Album;
 use Doctrine\Persistence\ObjectManager;
@@ -11,6 +12,7 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+        $faker = Factory::create();
         $singers = ['ACDC', 'Stromae', 'Jael', 'Panda Dub', 'Biga Ranx', 'Dub inc'];
         // TODO use API to get 50 random words
         $words = ['happy', 'holy', 'ordinary', 'malicious', 'wood', 'compare', 'juvenile', 'yarn',
@@ -20,23 +22,23 @@ class AppFixtures extends Fixture
         'reuse', 'tank', 'mass', 'high', 'kindly', 'spoil', 'awesome', 'regret', 'rewind', 'nose', 'throw', 'town'];
 
         for($i = 0; $i < 20; $i++) {
-            $randSinger = rand(0, count($singers) - 1);
             $album = new Album();
-            $album->setName(ucfirst($words[rand(0, count($words) -1 )]));
-            $album->setSinger($singers[$randSinger]);
+            $album->setName(ucfirst($faker->randomElement($words)));
+            $album->setSinger($faker->randomElement($singers));
             $manager->persist($album);
             // Number of songs for this album
-            $randSong = rand(1, 10);
-            for($j = 0; $j < $randSong; $j++) {
+            $randSongNumber = $faker->numberBetween(1, 10);
+            for($j = 0; $j < $randSongNumber; $j++) {
                 $song = new Song();
                 $song->setAlbum($album);
-                $songWords = rand(2, 7);
+                // Number of words of the song name
+                $songWords = $faker->numberBetween(2, 5);
                 $songName = '';
                 for($x = 0; $x < $songWords; $x++) {
-                    $songName .= $words[rand(0, count($words)-1)] . ' ';
+                    $songName .= $faker->randomElement($words) . ' ';
                 }
                 $song->setName(ucfirst($songName));
-                $song->setLength(rand(1, 5));
+                $song->setLength($faker->numberBetween(1, 5));
 
                 $manager->persist($song);
             }
